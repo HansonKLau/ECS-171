@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+*.env
+.env.*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints/*
+
+# macOS
+.DS_Store
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*~
+*.sublime-project
+*.sublime-workspace
+
+keras_tuner_dir/
+saved_models/
