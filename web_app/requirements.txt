@@ -1,7 +1,7 @@
-fastapi
-uvicorn[standard]
-scikit-learn
-tensorflow
+Flask
+pydantic
 joblib
 numpy
-pandas 
+pandas
+scikit-learn
+tensorflow 
