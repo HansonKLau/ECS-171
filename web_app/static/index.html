@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: white;
+            background: #f8f9fa;
             min-height: 100vh;
             padding: 20px;
             color: #333;
@@ -43,7 +43,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #022851 0%, #FFBF00 100%); 
+            background: linear-gradient(135deg, #022851 0%, #FFBF00 100%);
             padding: 40px 30px;
             text-align: center;
             color: white;
@@ -67,45 +67,62 @@
 
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 30px;
-            min-height: calc(100vh - 300px);
         }
 
-        .form-section {
-            padding: 40px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e9ecef;
+        .form-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 24px;
         }
 
-        .results-section {
-            padding: 40px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        .form-column h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
             color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .label-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e9ecef;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
+            justify-content: space-between;
+            align-items: baseline;
             margin-bottom: 8px;
+        }
+
+        .label-group label {
+            margin-bottom: 0;
             font-weight: 600;
             color: #555;
             font-size: 0.95rem;
         }
 
-        .input-wrapper {
+        .feature-description {
+            font-size: 0.85rem;
+            color: #777;
+            font-style: italic;
+            text-align: right;
+        }
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .results-section {
+            padding: 40px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            min-height: 300px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
             position: relative;
         }
 
@@ -122,11 +139,11 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #FFBF00; 
+            border-color: #FFBF00;
             background: white;
-            box-shadow: 0 0 0 3px rgba(255, 191, 0, 0.1); 
+            box-shadow: 0 0 0 3px rgba(255, 191, 0, 0.1);
             transform: translateY(-2px);
-            color: #333 !important;     
+            color: #333 !important;
         }
 
         .form-group input:valid {
@@ -137,7 +154,7 @@
         .predict-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #022851 0%, #FFBF00 100%); 
+            background: linear-gradient(135deg, #022851 0%, #FFBF00 100%);
             color: white;
             border: none;
             border-radius: 12px;
@@ -151,7 +168,7 @@
 
         .predict-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 191, 0, 0.3); 
+            box-shadow: 0 10px 25px rgba(2, 40, 81, 0.2);
         }
 
         .predict-btn:active {
@@ -229,298 +246,199 @@
             opacity: 0.8;
         }
 
-        .benign {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #fd79a8 100%); 
-            color: #2d3436;
-            border: none;
+        #results.benign {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            color: #004d40;
         }
 
-        .malignant {
-            background: linear-gradient(135deg, #ffeaa7 0%, #81ecec 50%, #00b894 100%); 
-            color: #2d3436;
-            border: none;
+        #results.malignant {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            color: #bf360c;
         }
 
-        .error-state {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 50%, #fd79a8 100%); 
-            color: #2d3436;
-            border: none;
-        }
-
-        .empty-state {
-            opacity: 0.8;
-        }
-
-        .feature-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
+        .error-message {
+            color: #d9534f;
+            background: #f2dede;
+            border: 1px solid #ebccd1;
+            padding: 15px;
             border-radius: 12px;
-            border-left: 4px solid #FFBF00; 
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .feature-info h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+        }
+        
+        .form-container:hover {
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
         }
 
-        .feature-info ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .feature-info li {
-            padding: 8px 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .feature-info li i {
-            color: #022851; 
-            margin-right: 10px;
-            width: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .form-section, .results-section {
-                padding: 30px 20px;
-            }
-            
-            .probability-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.6s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .results-placeholder {
+            text-align: center;
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-heartbeat"></i> Breast Cancer Prediction AI</h1>
-            <p>Advanced machine learning model to assist in breast cancer diagnosis using tumor characteristics</p>
-        </div>
+        <header class="header">
+            <h1>Breast Cancer Prediction AI</h1>
+            <p>Enter the 13 required features from a tumor sample to predict whether it is Malignant or Benign.</p>
+        </header>
 
-        <div class="main-content">
-            <div class="form-section">
-                <form id="predictionForm">
-                    <div class="form-group">
-                        <label for="radius_error"><i class="fas fa-ruler"></i> Radius Error</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="radius_error" name="radius_error" step="any" required value="0.27" placeholder="e.g., 0.27">
+        <main class="main-content">
+            <section class="form-container">
+                <form id="prediction-form" method="POST" action="/predict_rf">
+                    
+                    {% if error %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endif %}
+                    
+                    <div class="form-columns">
+                        <div class="form-column" id="form-col-1">
+                            <!-- Populated by script -->
+                        </div>
+                        <div class="form-column" id="form-col-2">
+                            <!-- Populated by script -->
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="worst_texture"><i class="fas fa-texture"></i> Worst Texture</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="worst_texture" name="worst_texture" step="any" required value="19.26" placeholder="e.g., 19.26">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="worst_area"><i class="fas fa-expand-arrows-alt"></i> Worst Area</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="worst_area" name="worst_area" step="any" required value="711.2" placeholder="e.g., 711.2">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="worst_smoothness"><i class="fas fa-wave-square"></i> Worst Smoothness</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="worst_smoothness" name="worst_smoothness" step="any" required value="0.144" placeholder="e.g., 0.144">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="worst_concave_points"><i class="fas fa-dot-circle"></i> Worst Concave Points</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="worst_concave_points" name="worst_concave_points" step="any" required value="0.1288" placeholder="e.g., 0.1288">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="predict-btn" id="predictBtn">
-                        <span class="loading-spinner" id="loadingSpinner"></span>
-                        <span id="btnText"><i class="fas fa-brain"></i> Analyze & Predict</span>
+                    
+                    <button type="submit" class="predict-btn" id="predict-btn">
+                        <span class="loading-spinner" id="spinner"></span>
+                        <i class="fas fa-magic"></i>&nbsp; Predict Diagnosis
                     </button>
                 </form>
-
-                <div class="feature-info">
-                    <h3><i class="fas fa-info-circle"></i> Feature Information</h3>
-                    <ul>
-                        <li><i class="fas fa-chevron-right"></i> Radius Error: Standard error of mean distances from center</li>
-                        <li><i class="fas fa-chevron-right"></i> Worst Texture: Standard deviation of gray-scale values</li>
-                        <li><i class="fas fa-chevron-right"></i> Worst Area: Largest area measurement</li>
-                        <li><i class="fas fa-chevron-right"></i> Worst Smoothness: Largest local variation in radius</li>
-                        <li><i class="fas fa-chevron-right"></i> Worst Concave Points: Largest number of concave portions</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="results-section" id="resultsSection">
-                <div class="result-content" id="resultContent">
-                    <div class="empty-state">
-                        <div class="result-icon">
-                            <i class="fas fa-microscope"></i>
+            </section>
+            
+            <section id="results" class="results-section">
+                {% if prediction_result %}
+                    <div class="result-content">
+                        <i class="fas {% if prediction_result.prediction_text == 'Benign' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} result-icon"></i>
+                        <h2 class="result-title">Prediction: {{ prediction_result.prediction_text }}</h2>
+                        <p class="result-subtitle">The model predicts the sample is most likely {{ prediction_result.prediction_text }}.</p>
+                        <div class="probability-grid">
+                            <div class="probability-card">
+                                <div class="probability-value">{{ prediction_result.probability_benign }}</div>
+                                <div class="probability-label">Benign Probability</div>
+                            </div>
+                            <div class="probability-card">
+                                <div class="probability-value">{{ prediction_result.probability_malignant }}</div>
+                                <div class="probability-label">Malignant Probability</div>
+                            </div>
                         </div>
-                        <div class="result-title">Ready for Analysis</div>
-                        <div class="result-subtitle">Enter tumor characteristics and click analyze to get AI-powered predictions</div>
                     </div>
-                </div>
-            </div>
-        </div>
+                {% else %}
+                    <div class="results-placeholder">
+                        <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Awaiting Input</h3>
+                        <p>Your prediction results will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+        </main>
     </div>
 
     <script>
-        document.getElementById('predictionForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const btnText = document.getElementById('btnText');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const predictBtn = document.getElementById('predictBtn');
-            const resultContent = document.getElementById('resultContent');
-            const resultsSection = document.getElementById('resultsSection');
-
-            // Show loading state
-            loadingSpinner.style.display = 'inline-block';
-            btnText.innerHTML = '<i class="fas fa-cog fa-spin"></i> Analyzing...';
-            predictBtn.disabled = true;
-
-            const formData = {
-                radius_error: parseFloat(document.getElementById('radius_error').value),
-                worst_texture: parseFloat(document.getElementById('worst_texture').value),
-                worst_area: parseFloat(document.getElementById('worst_area').value),
-                worst_smoothness: parseFloat(document.getElementById('worst_smoothness').value),
-                worst_concave_points: parseFloat(document.getElementById('worst_concave_points').value)
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = {{ features|tojson }};
+            const defaultValues = {
+                'worst perimeter': 104.1, 'worst radius': 16.27, 'worst concave points': 0.1146, 'worst area': 880.6,
+                'mean concave points': 0.0489, 'mean concavity': 0.0888, 'mean area': 654.9, 'area error': 40.34,
+                'mean perimeter': 91.97, 'mean radius': 14.13, 'worst concavity': 0.2722, 'worst texture': 25.68, 'mean texture': 19.29
+            };
+            const featureDescriptions = {
+                'worst perimeter': 'Worst (largest) value for perimeter',
+                'worst radius': 'Worst (largest) value for radius (mean of distances from center to points on the perimeter)',
+                'worst concave points': 'Worst (largest) value for number of concave portions of the contour',
+                'worst area': 'Worst (largest) value for area',
+                'mean concave points': 'Mean number of concave portions of the contour',
+                'mean concavity': 'Mean of severity of concave portions of the contour',
+                'mean area': 'Mean area',
+                'area error': 'Standard error for area',
+                'mean perimeter': 'Mean perimeter',
+                'mean radius': 'Mean of distances from center to points on the perimeter',
+                'worst concavity': 'Worst (largest) value for severity of concave portions of the contour',
+                'worst texture': 'Worst (largest) value for texture (standard deviation of gray-scale values)',
+                'mean texture': 'Mean texture (standard deviation of gray-scale values)'
             };
 
-            try {
-                const response = await fetch('/predict', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
+            const col1 = document.getElementById('form-col-1');
+            const col2 = document.getElementById('form-col-2');
+
+            // Split features into two columns
+            const midIndex = Math.ceil(features.length / 2);
+            const firstHalf = features.slice(0, midIndex);
+            const secondHalf = features.slice(midIndex);
+
+            const populateColumn = (column, featureList, formData) => {
+                featureList.forEach(feature => {
+                    const formName = feature.replace(/ /g, '_');
+                    const value = formData && formData[formName] ? formData[formName] : defaultValues[feature];
+
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+                    
+                    const labelGroup = document.createElement('div');
+                    labelGroup.className = 'label-group';
+
+                    const label = document.createElement('label');
+                    label.htmlFor = formName;
+                    label.textContent = feature.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    
+                    const description = document.createElement('span');
+                    description.className = 'feature-description';
+                    description.textContent = featureDescriptions[feature] || 'Standard value';
+
+                    labelGroup.appendChild(label);
+                    labelGroup.appendChild(description);
+                    
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.step = 'any';
+                    input.id = formName;
+                    input.name = formName;
+                    input.value = value;
+                    input.required = true;
+
+                    group.appendChild(labelGroup);
+                    group.appendChild(input);
+                    column.appendChild(group);
                 });
+            };
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.description || `HTTP error! status: ${response.status}`);
-                }
+            const formData = {{ form_data|tojson }};
+            populateColumn(col1, firstHalf, formData);
+            populateColumn(col2, secondHalf, formData);
 
-                const data = await response.json();
+            const form = document.getElementById('prediction-form');
+            const predictBtn = document.getElementById('predict-btn');
+            const spinner = document.getElementById('spinner');
 
-                // Determine result styling
-                const isBenign = data.prediction === 1;
-                const predictionText = isBenign ? 'Benign' : 'Malignant';
-                const iconClass = isBenign ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
-                const sectionClass = isBenign ? 'benign' : 'malignant';
-
-                // Update results section styling
-                resultsSection.className = `results-section ${sectionClass}`;
-
-                // Update result content with animation
-                resultContent.innerHTML = `
-                    <div class="fade-in">
-                        <div class="result-icon">
-                            <i class="${iconClass}"></i>
-                        </div>
-                        <div class="result-title">${predictionText}</div>
-                        <div class="result-subtitle">AI Analysis Complete</div>
-                        
-                        <div class="probability-grid">
-                            <div class="probability-card">
-                                <div class="probability-value">${(data.probability_benign * 100).toFixed(1)}%</div>
-                                <div class="probability-label">Benign</div>
-                            </div>
-                            <div class="probability-card">
-                                <div class="probability-value">${(data.probability_malignant * 100).toFixed(1)}%</div>
-                                <div class="probability-label">Malignant</div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 25px; opacity: 0.8; font-size: 0.9rem;">
-                            <i class="fas fa-robot"></i> Model: ${data.model_used}
-                        </div>
-                    </div>
-                `;
-
-            } catch (error) {
-                console.error('Error making prediction:', error);
-                
-                resultsSection.className = 'results-section error-state';
-                resultContent.innerHTML = `
-                    <div class="fade-in">
-                        <div class="result-icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </div>
-                        <div class="result-title">Analysis Error</div>
-                        <div class="result-subtitle">${error.message}</div>
-                        <div style="margin-top: 20px; opacity: 0.8; font-size: 0.9rem;">
-                            Please check your input values and try again
-                        </div>
-                    </div>
-                `;
-            } finally {
-                // Reset button state
-                loadingSpinner.style.display = 'none';
-                btnText.innerHTML = '<i class="fas fa-brain"></i> Analyze & Predict';
-                predictBtn.disabled = false;
-            }
-        });
-
-        // Add input validation feedback
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', function() {
-                if (this.value && !isNaN(this.value)) {
-                    this.style.borderColor = '#28a745';
-                } else {
-                    this.style.borderColor = '#e1e5e9';
-                }
+            form.addEventListener('submit', function() {
+                spinner.style.display = 'inline-block';
+                predictBtn.disabled = true;
+                predictBtn.querySelector('i').style.display = 'none';
             });
+            
+            {% if prediction_result %}
+                const resultsElement = document.getElementById('results');
+                if (resultsElement) {
+                    const resultText = "{{ prediction_result.prediction_text }}";
+                    resultsElement.className = 'results-section'; // Reset classes
+                    if(resultText === 'Benign') {
+                        resultsElement.classList.add('benign');
+                    } else if (resultText === 'Malignant') {
+                        resultsElement.classList.add('malignant');
+                    }
+                    resultsElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            {% endif %}
         });
     </script>
 </body>
