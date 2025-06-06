@@ -352,6 +352,16 @@
                 'mean concave points': 0.0489, 'mean concavity': 0.0888, 'mean area': 654.9, 'area error': 40.34,
                 'mean perimeter': 91.97, 'mean radius': 14.13, 'worst concavity': 0.2722, 'worst texture': 25.68, 'mean texture': 19.29
             };
+            const minValues = {
+                'worst perimeter': 50.41, 'worst radius': 7.93, 'worst concave points': 0.0, 'worst area': 185.2,
+                'mean concave points': 0.0, 'mean concavity': 0.0, 'mean area': 143.5, 'area error': 6.802,
+                'mean perimeter': 43.79, 'mean radius': 6.981, 'worst concavity': 0.0, 'worst texture': 12.02, 'mean texture': 9.71,
+            }
+            const maxValues = {
+                'worst perimeter': 251.2, 'worst radius': 36.04, 'worst concave points': 0.291, 'worst area': 4254.0,
+                'mean concave points': 0.2012, 'mean concavity': 0.4268, 'mean area': 2501.0, 'area error': 542.2,
+                'mean perimeter': 188.5, 'mean radius': 28.11, 'worst concavity': 1.252, 'worst texture': 49.54, 'mean texture': 39.28,
+            }
             const featureDescriptions = {
                 'worst perimeter': 'Worst (largest) value for perimeter',
                 'worst radius': 'Worst (largest) value for radius (mean of distances from center to points on the perimeter)',
@@ -405,6 +415,8 @@
                     input.name = formName;
                     input.value = value;
                     input.required = true;
+                    input.max = maxValues[feature]
+                    input.min = minValues[feature]
 
                     group.appendChild(labelGroup);
                     group.appendChild(input);
