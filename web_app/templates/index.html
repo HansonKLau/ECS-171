@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏥 Breast Cancer Prediction AI</title>
+    <title>Breast Cancer Prediction AI</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -294,7 +294,7 @@
 
         <main class="main-content">
             <section class="form-container">
-                <form id="prediction-form" method="POST" action="/predict_rf">
+                <form id="prediction-form" method="POST" action="/predict_rf" novalidate>
                     
                     {% if error %}
                         <div class="error-message">{{ error }}</div>
@@ -313,6 +313,7 @@
                         <span class="loading-spinner" id="spinner"></span>
                         <i class="fas fa-magic"></i>&nbsp; Predict Diagnosis
                     </button>
+                    <div id="validation-error" class="error-message" style="display: none; margin-top: 15px;"></div>
                 </form>
             </section>
             
@@ -431,11 +432,57 @@
             const form = document.getElementById('prediction-form');
             const predictBtn = document.getElementById('predict-btn');
             const spinner = document.getElementById('spinner');
+            const validationErrorDiv = document.getElementById('validation-error');
+            const resultsSection = document.getElementById('results');
+            const resultsPlaceholderHtml = `
+                <div class="results-placeholder">
+                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <h3>Awaiting Input</h3>
+                    <p>Your prediction results will appear here.</p>
+                </div>`;
 
-            form.addEventListener('submit', function() {
-                spinner.style.display = 'inline-block';
-                predictBtn.disabled = true;
-                predictBtn.querySelector('i').style.display = 'none';
+            form.addEventListener('submit', function(event) {
+                // Clear previous results
+                resultsSection.innerHTML = resultsPlaceholderHtml;
+                resultsSection.className = 'results-section';
+
+                // Clear previous errors
+                validationErrorDiv.style.display = 'none';
+                validationErrorDiv.innerHTML = '';
+
+                // Perform validation
+                let isValid = true;
+                let errorMessages = [];
+                
+                features.forEach(feature => {
+                    const formName = feature.replace(/ /g, '_');
+                    const input = document.getElementById(formName);
+                    const featureName = feature.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    const min = parseFloat(input.min);
+                    const max = parseFloat(input.max);
+                    const value = parseFloat(input.value);
+
+                    if (input.value.trim() === '') {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> is required.`);
+                    } else if (isNaN(value)) {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> must be a number.`);
+                    } else if (value < min || value > max) {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> must be between ${min} and ${max}. You entered ${value}.`);
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault(); // Stop form submission
+                    validationErrorDiv.innerHTML = errorMessages.join('<br>');
+                    validationErrorDiv.style.display = 'block';
+                } else {
+                    spinner.style.display = 'inline-block';
+                    predictBtn.disabled = true;
+                    predictBtn.querySelector('i').style.display = 'none';
+                }
             });
             
             {% if prediction_result %}
