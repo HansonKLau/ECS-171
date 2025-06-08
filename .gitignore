@@ -25,4 +25,3 @@ env/
 *.sublime-workspace
 
 keras_tuner_dir/
-saved_models/

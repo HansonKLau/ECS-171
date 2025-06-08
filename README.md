@@ -55,7 +55,7 @@ Before running the web application, you must first generate the model and scaler
 4.  **Run the Flask Application:**
     From within the `ECS-171/web_app/` directory:
     ```bash
-    flask run
+    flask --app main run
     ```
     Or, for development with auto-reloading:
     ```bash
