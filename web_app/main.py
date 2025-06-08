@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from typing import List, Any
 
-app = Flask(__name__, template_folder='static')
+app = Flask(__name__, template_folder='templates')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "..", "saved_models/")

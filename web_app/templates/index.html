@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏥 Breast Cancer Prediction AI</title>
+    <title>Breast Cancer Prediction AI</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -294,7 +294,7 @@
 
         <main class="main-content">
             <section class="form-container">
-                <form id="prediction-form" method="POST" action="/predict_rf">
+                <form id="prediction-form" method="POST" action="/predict_rf" novalidate>
                     
                     {% if error %}
                         <div class="error-message">{{ error }}</div>
@@ -313,6 +313,7 @@
                         <span class="loading-spinner" id="spinner"></span>
                         <i class="fas fa-magic"></i>&nbsp; Predict Diagnosis
                     </button>
+                    <div id="validation-error" class="error-message" style="display: none; margin-top: 15px;"></div>
                 </form>
             </section>
             
@@ -352,6 +353,16 @@
                 'mean concave points': 0.0489, 'mean concavity': 0.0888, 'mean area': 654.9, 'area error': 40.34,
                 'mean perimeter': 91.97, 'mean radius': 14.13, 'worst concavity': 0.2722, 'worst texture': 25.68, 'mean texture': 19.29
             };
+            const minValues = {
+                'worst perimeter': 50.41, 'worst radius': 7.93, 'worst concave points': 0.0, 'worst area': 185.2,
+                'mean concave points': 0.0, 'mean concavity': 0.0, 'mean area': 143.5, 'area error': 6.802,
+                'mean perimeter': 43.79, 'mean radius': 6.981, 'worst concavity': 0.0, 'worst texture': 12.02, 'mean texture': 9.71,
+            }
+            const maxValues = {
+                'worst perimeter': 251.2, 'worst radius': 36.04, 'worst concave points': 0.291, 'worst area': 4254.0,
+                'mean concave points': 0.2012, 'mean concavity': 0.4268, 'mean area': 2501.0, 'area error': 542.2,
+                'mean perimeter': 188.5, 'mean radius': 28.11, 'worst concavity': 1.252, 'worst texture': 49.54, 'mean texture': 39.28,
+            }
             const featureDescriptions = {
                 'worst perimeter': 'Worst (largest) value for perimeter',
                 'worst radius': 'Worst (largest) value for radius (mean of distances from center to points on the perimeter)',
@@ -405,6 +416,8 @@
                     input.name = formName;
                     input.value = value;
                     input.required = true;
+                    input.max = maxValues[feature]
+                    input.min = minValues[feature]
 
                     group.appendChild(labelGroup);
                     group.appendChild(input);
@@ -419,11 +432,57 @@
             const form = document.getElementById('prediction-form');
             const predictBtn = document.getElementById('predict-btn');
             const spinner = document.getElementById('spinner');
+            const validationErrorDiv = document.getElementById('validation-error');
+            const resultsSection = document.getElementById('results');
+            const resultsPlaceholderHtml = `
+                <div class="results-placeholder">
+                    <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <h3>Awaiting Input</h3>
+                    <p>Your prediction results will appear here.</p>
+                </div>`;
 
-            form.addEventListener('submit', function() {
-                spinner.style.display = 'inline-block';
-                predictBtn.disabled = true;
-                predictBtn.querySelector('i').style.display = 'none';
+            form.addEventListener('submit', function(event) {
+                // Clear previous results
+                resultsSection.innerHTML = resultsPlaceholderHtml;
+                resultsSection.className = 'results-section';
+
+                // Clear previous errors
+                validationErrorDiv.style.display = 'none';
+                validationErrorDiv.innerHTML = '';
+
+                // Perform validation
+                let isValid = true;
+                let errorMessages = [];
+                
+                features.forEach(feature => {
+                    const formName = feature.replace(/ /g, '_');
+                    const input = document.getElementById(formName);
+                    const featureName = feature.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    const min = parseFloat(input.min);
+                    const max = parseFloat(input.max);
+                    const value = parseFloat(input.value);
+
+                    if (input.value.trim() === '') {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> is required.`);
+                    } else if (isNaN(value)) {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> must be a number.`);
+                    } else if (value < min || value > max) {
+                        isValid = false;
+                        errorMessages.push(`<strong>${featureName}</strong> must be between ${min} and ${max}. You entered ${value}.`);
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault(); // Stop form submission
+                    validationErrorDiv.innerHTML = errorMessages.join('<br>');
+                    validationErrorDiv.style.display = 'block';
+                } else {
+                    spinner.style.display = 'inline-block';
+                    predictBtn.disabled = true;
+                    predictBtn.querySelector('i').style.display = 'none';
+                }
             });
             
             {% if prediction_result %}
